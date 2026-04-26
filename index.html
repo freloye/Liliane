@@ -1,53 +1,62 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Liliane – 58 printemps</title>
-
-  <meta property="og:title" content="Liliane – 58 printemps" />
-  <meta property="og:description" content="Une chanson dédiée à Liliane" />
-  <meta property="og:image" content="pochette-liliane.png" />
-  <meta property="og:type" content="music.song" />
 
   <style>
     body {
       margin: 0;
       background: #000;
-      overflow: hidden;
       font-family: Arial, sans-serif;
+      color: white;
+      min-height: 100vh;
+      overflow: hidden;
     }
 
-    /* Fond flou */
     .background {
       position: fixed;
-      width: 100%;
-      height: 100%;
-      background: url('pochette-liliane.png') center/cover no-repeat;
-      filter: blur(25px) brightness(0.4);
-      transform: scale(1.1);
+      inset: 0;
+      background: url("./pochette-liliane.png") center/cover no-repeat;
+      filter: blur(25px) brightness(0.35);
+      transform: scale(1.12);
+      z-index: 0;
     }
 
-    /* Conteneur principal */
     .container {
       position: relative;
-      z-index: 2;
-      height: 100vh;
+      z-index: 1;
+      min-height: 100vh;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
-      flex-direction: column;
+      text-align: center;
+      padding: 20px;
+      box-sizing: border-box;
     }
 
-    /* Disque */
+    h1 {
+      margin-bottom: 30px;
+      font-size: 28px;
+      text-shadow: 0 3px 10px #000;
+    }
+
     .disc {
       width: 320px;
       height: 320px;
+      max-width: 80vw;
+      max-height: 80vw;
       border-radius: 50%;
-      background: url('pochette-liliane.png') center/cover no-repeat;
-      box-shadow: 0 0 40px rgba(0,0,0,0.8);
-      animation: spin 20s linear infinite;
+      background: url("./pochette-liliane.png") center/cover no-repeat;
+      box-shadow: 0 0 45px rgba(0,0,0,0.9);
+      animation: spin 18s linear infinite;
+      animation-play-state: paused;
+    }
+
+    .disc.playing {
+      animation-play-state: running;
     }
 
     @keyframes spin {
@@ -55,30 +64,10 @@
       to { transform: rotate(360deg); }
     }
 
-    /* Bouton */
-    .play-btn {
+    audio {
       margin-top: 30px;
-      padding: 12px 25px;
-      font-size: 16px;
-      border: none;
-      border-radius: 25px;
-      background: white;
-      cursor: pointer;
-    }
-
-    .title {
-      position: absolute;
-      top: 40px;
-      color: white;
-      font-size: 22px;
-      text-align: center;
-      width: 100%;
-      opacity: 0;
-      animation: fadeIn 3s ease forwards;
-    }
-
-    @keyframes fadeIn {
-      to { opacity: 1; }
+      width: 320px;
+      max-width: 85vw;
     }
   </style>
 </head>
@@ -87,37 +76,32 @@
 
   <div class="background"></div>
 
-  <div class="container">
-    <div class="title">Liliane – 58 printemps</div>
+  <main class="container">
+    <h1>Liliane – 58 printemps</h1>
 
     <div class="disc" id="disc"></div>
 
-    <button class="play-btn" onclick="playAudio()">▶ Écouter</button>
-
-    <audio id="audio">
-      <source src="chanson-liliane.mp3" type="audio/mpeg">
+    <audio id="audio" controls preload="metadata">
+      <source src="./chanson-liliane.mp3" type="audio/mpeg">
+      Votre navigateur ne peut pas lire ce fichier audio.
     </audio>
-  </div>
+  </main>
 
   <script>
     const audio = document.getElementById("audio");
     const disc = document.getElementById("disc");
 
-    function playAudio() {
-      audio.play();
-      disc.style.animationPlayState = "running";
-    }
+    audio.addEventListener("play", () => {
+      disc.classList.add("playing");
+    });
 
     audio.addEventListener("pause", () => {
-      disc.style.animationPlayState = "paused";
+      disc.classList.remove("playing");
     });
 
-    audio.addEventListener("play", () => {
-      disc.style.animationPlayState = "running";
+    audio.addEventListener("ended", () => {
+      disc.classList.remove("playing");
     });
-
-    // disque arrêté au départ
-    disc.style.animationPlayState = "paused";
   </script>
 
 </body>
