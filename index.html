@@ -3,190 +3,312 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Liliane – 58 printemps</title>
+<title>Liliane & Claude</title>
 
 <style>
-body {
-  margin: 0;
-  overflow: hidden;
-  font-family: Arial, sans-serif;
-  background: black;
+body{
+  margin:0;
+  overflow:hidden;
+  font-family:Arial,sans-serif;
+  background:black;
 }
 
-.bg {
-  position: fixed;
-  inset: 0;
-  background: url("pochette-liliane.png") center/cover no-repeat;
-  filter: blur(32px) brightness(0.32);
-  transform: scale(1.2);
-  z-index: 0;
+.bg{
+  position:fixed;
+  inset:0;
+  background:url("pochette-liliane.png") center/cover no-repeat;
+  filter:blur(32px) brightness(.28);
+  transform:scale(1.15);
+  transition:background-image 1s ease;
 }
 
-.bg::after {
-  content: "";
-  position: absolute;
-  inset: 0;
+.bg::after{
+  content:"";
+  position:absolute;
+  inset:0;
   background:
-    radial-gradient(circle at center, rgba(255,190,90,.25), transparent 55%),
-    linear-gradient(to bottom, rgba(0,0,0,.15), rgba(0,0,0,.75));
-  animation: pulse 6s ease-in-out infinite;
+  radial-gradient(circle at center,rgba(255,200,120,.25),transparent 55%),
+  linear-gradient(to bottom,rgba(0,0,0,.1),rgba(0,0,0,.78));
+  animation:pulse 6s ease-in-out infinite;
 }
 
-@keyframes pulse {
-  0%,100% { opacity: .35; }
-  50% { opacity: .85; }
+@keyframes pulse{
+  0%,100%{opacity:.35;}
+  50%{opacity:.9;}
 }
 
-.container {
-  position: relative;
-  z-index: 2;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 22px;
-  padding: 25px;
-  box-sizing: border-box;
+.container{
+  position:relative;
+  z-index:2;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:22px;
+  padding:20px;
+  box-sizing:border-box;
 }
 
-.title {
-  color: white;
-  font-size: 30px;
-  text-align: center;
-  text-shadow: 0 5px 25px black;
-  animation: fadeIn 2s ease forwards;
+.title{
+  color:white;
+  font-size:34px;
+  text-shadow:0 6px 24px black;
+  transition:.5s;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-18px); }
-  to { opacity: 1; transform: translateY(0); }
+.disc-wrap{
+  position:relative;
 }
 
-.disc-wrap {
-  position: relative;
+.disc-glow{
+  position:absolute;
+  inset:-10%;
+  border-radius:50%;
+  background:radial-gradient(circle,
+  rgba(255,190,90,.45),
+  transparent 70%);
+  filter:blur(24px);
+  opacity:0;
+  transition:.5s;
 }
 
-.disc-glow {
-  position: absolute;
-  inset: -12%;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255,190,80,.45), transparent 70%);
-  filter: blur(24px);
-  opacity: 0;
-  transition: opacity .5s;
+.disc{
+  width:520px;
+  height:520px;
+  max-width:78vw;
+  max-height:78vw;
+  border-radius:50%;
+  background:url("pochette-disque-liliane.png") center/cover no-repeat;
+  background-size:cover;
+  box-shadow:0 0 60px rgba(0,0,0,.95);
+  border:2px solid rgba(255,255,255,.15);
+  animation:spin 18s linear infinite;
+  animation-play-state:paused;
+  transition:
+    background-image 1s ease,
+    transform .4s ease;
 }
 
-.disc {
-  width: 520px;
-  height: 520px;
-  max-width: 78vw;
-  max-height: 78vw;
-  border-radius: 50%;
-  background: url("pochette-disque-liliane.png") center/cover no-repeat;
-  box-shadow: 0 0 55px rgba(0,0,0,.9);
-  border: 2px solid rgba(255,255,255,0.2);
-  animation: spin 18s linear infinite;
-  animation-play-state: paused;
-  position: relative;
-  z-index: 2;
-  transition: scale .3s ease;
+.disc.play{
+  animation-play-state:running;
+  transform:scale(1.04);
 }
 
-.disc.play {
-  animation-play-state: running;
-  scale: 1.04;
+.disc::after{
+  content:"";
+  position:absolute;
+  width:22px;
+  height:22px;
+  border-radius:50%;
+  background:black;
+  border:2px solid rgba(255,255,255,.4);
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
 }
 
-.disc::after {
-  content: "";
-  position: absolute;
-  width: 22px;
-  height: 22px;
-  background: black;
-  border: 2px solid rgba(255,255,255,.5);
-  border-radius: 50%;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+@keyframes spin{
+  from{transform:rotate(0deg);}
+  to{transform:rotate(360deg);}
 }
 
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.playing .disc-glow{
+  opacity:1;
 }
 
-.playing .disc-glow {
-  opacity: 1;
+audio{
+  width:340px;
+  max-width:85vw;
 }
 
-audio {
-  width: 340px;
-  max-width: 85vw;
-  opacity: .95;
+.buttons{
+  display:flex;
+  gap:14px;
+  flex-wrap:wrap;
+  justify-content:center;
 }
 
-.hint {
-  color: rgba(255,255,255,.75);
-  font-size: 14px;
-  text-align: center;
-  text-shadow: 0 3px 12px black;
+.btn{
+  padding:12px 22px;
+  border:none;
+  border-radius:30px;
+  cursor:pointer;
+  background:rgba(255,255,255,.12);
+  color:white;
+  font-size:15px;
+  backdrop-filter:blur(8px);
+  transition:.3s;
 }
 
-@media (max-width: 700px) {
-  .title {
-    font-size: 24px;
+.btn:hover{
+  background:rgba(255,255,255,.25);
+  transform:scale(1.05);
+}
+
+.claude-photo{
+  position:absolute;
+  right:40px;
+  bottom:40px;
+  width:180px;
+  border-radius:18px;
+  overflow:hidden;
+  opacity:0;
+  transform:translateY(20px);
+  transition:1s;
+  box-shadow:0 0 35px rgba(0,0,0,.7);
+}
+
+.claude-photo img{
+  width:100%;
+  display:block;
+}
+
+.claude-visible{
+  opacity:1;
+  transform:translateY(0);
+}
+
+.hint{
+  color:rgba(255,255,255,.75);
+  font-size:14px;
+}
+
+@media(max-width:700px){
+
+  .title{
+    font-size:24px;
+    text-align:center;
   }
 
-  .disc {
-    width: 360px;
-    height: 360px;
+  .disc{
+    width:360px;
+    height:360px;
   }
+
+  .claude-photo{
+    width:110px;
+    right:15px;
+    bottom:15px;
+  }
+
 }
 </style>
 </head>
 
 <body>
 
-<div class="bg"></div>
+<div class="bg" id="bg"></div>
 
 <main class="container" id="container">
 
-  <div class="title">Liliane – 58 printemps</div>
+<div class="title" id="title">
+Liliane – 58 printemps
+</div>
 
-  <div class="disc-wrap">
-    <div class="disc-glow"></div>
-    <div class="disc" id="disc"></div>
-  </div>
+<div class="disc-wrap">
+<div class="disc-glow"></div>
+<div class="disc" id="disc"></div>
+</div>
 
-  <audio id="audio" controls preload="metadata">
-    <source src="chanson-liliane.mp3" type="audio/mpeg">
-    Votre navigateur ne peut pas lire ce fichier audio.
-  </audio>
+<div class="buttons">
 
-  <div class="hint">Appuie sur lecture pour lancer la chanson.</div>
+<button class="btn" onclick="loadTrack('liliane')">
+🎵 Liliane
+</button>
+
+<button class="btn" onclick="loadTrack('claude')">
+🏍 Claude
+</button>
+
+</div>
+
+<audio id="audio" controls preload="metadata">
+<source src="chanson-liliane.mp3" type="audio/mpeg">
+</audio>
+
+<div class="hint">
+Choisis une ambiance et lance la lecture.
+</div>
 
 </main>
 
-<script>
-const audio = document.getElementById("audio");
-const disc = document.getElementById("disc");
-const container = document.getElementById("container");
+<div class="claude-photo" id="claudePhoto">
+<img src="photo-claude.png">
+</div>
 
-audio.addEventListener("play", () => {
+<script>
+
+const audio=document.getElementById("audio");
+const disc=document.getElementById("disc");
+const bg=document.getElementById("bg");
+const title=document.getElementById("title");
+const container=document.getElementById("container");
+const claudePhoto=document.getElementById("claudePhoto");
+
+function loadTrack(track){
+
+  audio.pause();
+
+  if(track==="liliane"){
+
+    audio.src="chanson-liliane.mp3";
+
+    disc.style.backgroundImage=
+    'url("pochette-disque-liliane.png")';
+
+    bg.style.backgroundImage=
+    'url("pochette-liliane.png")';
+
+    title.innerHTML=
+    "Liliane – 58 printemps";
+
+    claudePhoto.classList.remove("claude-visible");
+
+  }
+
+  if(track==="claude"){
+
+    audio.src="chanson-claude.mp3";
+
+    disc.style.backgroundImage=
+    'url("photo-claude.png")';
+
+    bg.style.backgroundImage=
+    'url("photo-claude.png")';
+
+    title.innerHTML=
+    "Claude";
+
+    claudePhoto.classList.add("claude-visible");
+
+  }
+
+  audio.load();
+
+}
+
+audio.addEventListener("play",()=>{
+
   disc.classList.add("play");
   container.classList.add("playing");
+
 });
 
-audio.addEventListener("pause", () => {
+audio.addEventListener("pause",()=>{
+
   disc.classList.remove("play");
   container.classList.remove("playing");
+
 });
 
-audio.addEventListener("ended", () => {
+audio.addEventListener("ended",()=>{
+
   disc.classList.remove("play");
   container.classList.remove("playing");
+
 });
+
 </script>
 
 </body>
